@@ -11,16 +11,13 @@ export type OrderType = {
   name: string;
 };
 
-// export type Toppings = {
-//   tomatoSalsa: boolean;
-//   greenChiliSalsa: boolean;
-//   chiliCornSalsa: boolean;
-//   sourCream: boolean;
-//   cheese: boolean;
-//   lettuce: boolean;
-//   guacamole: boolean;
-// };
-
 export type Toppings = {
   [key: string]: boolean;
+  tomatoSalsa: boolean;
+  greenChiliSalsa: boolean;
+  chiliCornSalsa: boolean;
+  sourCream: boolean;
+  cheese: boolean;
+  lettuce: boolean;
+  guacamole: boolean;
 };
