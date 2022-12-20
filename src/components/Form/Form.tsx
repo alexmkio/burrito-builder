@@ -377,7 +377,7 @@ function Form() {
 
         <input type="submit" value="Submit" />
       </form>
-      Cost: {calculateCost()}
+      Cost: {burritoCost.toFixed(2)}
     </section>
   );
 }
