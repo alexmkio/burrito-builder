@@ -21,15 +21,20 @@ function Form() {
   const [protein, setProtein] = useState<string>("");
   const [queso, setQueso] = useState<boolean | null>(null);
   const [toppings, setToppings] = useState<Toppings>(initialToppings);
+  const [burritoCost, setBurritoCost] = useState<number>(7.15);
 
   const calculateCost = () => {
-    let burritoCost = 7.15;
-    if (protein === "carnitas") burritoCost += 0.5;
-    if (protein === "steak" || protein === "barbacoa") burritoCost += 1.0;
-    if (queso) burritoCost += 1.3;
-    if (protein.length && toppings.guacamole) burritoCost += 2.25;
-    return burritoCost;
+    let startingCost = 7.15;
+    if (protein === "carnitas") startingCost += 0.5;
+    if (protein === "steak" || protein === "barbacoa") startingCost += 1.0;
+    if (queso) startingCost += 1.3;
+    if (protein.length && toppings.guacamole) startingCost += 2.25;
+    setBurritoCost(startingCost);
   };
+
+  useEffect(() => {
+    calculateCost();
+  }, [protein, queso, toppings]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     switch (event.target.id) {
