@@ -6,11 +6,6 @@
 //   categories: string[]
 // }
 
-export type OrderType = {
-  id: number;
-  name: string;
-};
-
 export type Toppings = {
   [key: string]: boolean;
   tomatoSalsa: boolean;
@@ -20,4 +15,17 @@ export type Toppings = {
   cheese: boolean;
   lettuce: boolean;
   guacamole: boolean;
+};
+
+export type OrderType = {
+  id: number;
+  name: string;
+  phoneNumber: string;
+  emailAddress: string;
+  style: string;
+  rice: string;
+  protein: string;
+  queso: boolean | null;
+  toppings: Toppings;
+  burritoCost: number;
 };

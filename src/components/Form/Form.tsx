@@ -1,6 +1,6 @@
 import "./Form.scss";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { Toppings } from "../../types";
+import { Toppings, OrderType } from "../../types";
 
 const initialToppings = {
   tomatoSalsa: false,
@@ -12,7 +12,11 @@ const initialToppings = {
   guacamole: false,
 };
 
-function Form() {
+type FormProps = {
+  addOrder: (order: OrderType) => void;
+};
+
+const Form = ({ addOrder }: FormProps) => {
   const [name, setName] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [emailAddress, setEmailAddress] = useState<string>("");
@@ -73,6 +77,7 @@ function Form() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     let order = {
+      id: Date.now(),
       name,
       phoneNumber,
       emailAddress,
@@ -81,8 +86,9 @@ function Form() {
       protein,
       queso,
       toppings,
+      burritoCost,
     };
-    console.log("order", order);
+    addOrder(order);
   };
 
   return (
@@ -380,6 +386,6 @@ function Form() {
       Cost: {burritoCost.toFixed(2)}
     </section>
   );
-}
+};
 
 export default Form;

@@ -8,11 +8,15 @@ import { OrderType } from "./types";
 function App() {
   const [orders, setOrders] = useState<OrderType[] | null>(null);
 
+  const addOrder = (order: OrderType) => {
+    console.log("add order", order);
+  };
+
   return (
     <>
       <Header />
       <main>
-        <Form />
+        <Form addOrder={addOrder} />
         {orders ? <Orders orders={orders} /> : <h2>No Orders</h2>}
       </main>
     </>
