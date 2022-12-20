@@ -1,6 +1,6 @@
 import { assert, describe, expect, it } from "vitest";
 
-describe("App Tests", () => {
+describe("Form Tests", () => {
   it("foo", () => {
     assert.equal(Math.sqrt(4), 2);
   });
