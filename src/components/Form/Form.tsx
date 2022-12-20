@@ -74,6 +74,18 @@ const Form = ({ addOrder }: FormProps) => {
     }
   };
 
+  const resetForm = () => {
+    setName("");
+    setPhoneNumber("");
+    setEmailAddress("");
+    setStyle("");
+    setRice("");
+    setProtein("");
+    setQueso(null);
+    setToppings(initialToppings);
+    setBurritoCost(7.15);
+  };
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     let order = {
@@ -89,6 +101,7 @@ const Form = ({ addOrder }: FormProps) => {
       burritoCost,
     };
     addOrder(order);
+    resetForm();
   };
 
   return (
