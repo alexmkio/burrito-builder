@@ -11,7 +11,7 @@ const Orders = ({ orders }: OrdersProps) => {
     <section>
       <h1>Orders</h1>
       {orders.map((order) => {
-        return <Burrito order={order} />;
+        return <Burrito order={order} key={order.id} />;
       })}
     </section>
   );
