@@ -9,7 +9,7 @@ function App() {
   const [orders, setOrders] = useState<OrderType[] | null>(null);
 
   const addOrder = (order: OrderType) => {
-    console.log("add order", order);
+    !orders ? setOrders([order]) : setOrders([...orders, order]);
   };
 
   return (
