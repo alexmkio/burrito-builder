@@ -21,3 +21,14 @@ export type OrderType = {
   toppings: Toppings;
   burritoCost: number;
 };
+
+export type ToppingNames = {
+  [key: string]: string;
+  tomatoSalsa: string;
+  greenChiliSalsa: string;
+  chiliCornSalsa: string;
+  sourCream: string;
+  cheese: string;
+  lettuce: string;
+  guacamole: string;
+};
