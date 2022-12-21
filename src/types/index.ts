@@ -1,11 +1,3 @@
-// export type CardType = {
-//   id:         number
-//   question:   string
-//   answer:     string
-//   side:       string
-//   categories: string[]
-// }
-
 export type Toppings = {
   [key: string]: boolean;
   tomatoSalsa: boolean;
