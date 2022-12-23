@@ -13,19 +13,19 @@ jobs:
         node-version: [18.x]
 
     steps:          
-    - name: Checkout 🛎️
+    - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Setup Node.js ${{ matrix.node-version }} 🔧
+    - name: Setup Node Version ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: "npm"
 
-    - name: Install and Build 🔧 
-      run: npm install && npm run build
+    - name: Install (clean) and Build
+      run: npm ci && npm run build
 
-    - name: Deploy 🚀
+    - name: Deploy
       uses: JamesIves/github-pages-deploy-action@v4.4.1
       with:
         branch: gh-pages
