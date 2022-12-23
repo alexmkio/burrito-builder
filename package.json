@@ -1,5 +1,6 @@
 {
   "name": "burrito-builder",
+  "homepage": "https://alexmkio.github.io/burrito-builder/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
