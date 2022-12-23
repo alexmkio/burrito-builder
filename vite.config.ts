@@ -3,6 +3,8 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig(({ mode }) => {
   return {
+    base: '/burrito-builder/',
+
     plugins: [react()],
 
     // https://vitest.dev/config/
