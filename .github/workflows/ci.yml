@@ -13,14 +13,20 @@ jobs:
         node-version: [18.x]
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Install and Build using Node.js ${{ matrix.node-version }} 🔧
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Setup Node Version ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - run: npm install
-      - run: npm run build --if-present
+
+      - name: Install
+        run: npm install
+
+      - name: Build
+        run: npm run build --if-present
 
   cypress-testing:
     runs-on: ubuntu-latest
@@ -30,6 +36,8 @@ jobs:
         node-version: [18.x]
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Execute Vitest
-      - run: npm run test
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Run Vitest test suite
+        run: npm run test
