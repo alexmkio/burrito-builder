@@ -1,7 +1,11 @@
 import "./Form.scss";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { Toppings, OrderType } from "../../types";
-import { makeMinDateTimeString, makeMaxDateTimeString } from "../../util/date-utils";
+import {
+  makeMinDateTimeString,
+  makeMaxDateTimeString,
+} from "../../util/date-utils";
+import { fetchStarWars } from "../../util/fetch";
 
 const initialToppings = {
   tomatoSalsa: false,
@@ -19,6 +23,7 @@ type FormProps = {
 
 const Form = ({ addOrder }: FormProps) => {
   const [name, setName] = useState<string>("");
+  const [placeholder, setPlaceholder] = useState<string>("Placeholder");
   const [pickupTime, setPickupTime] = useState<string>(makeMinDateTimeString());
   const [protein, setProtein] = useState<string>("");
   const [queso, setQueso] = useState<boolean | null>(null);
@@ -34,9 +39,18 @@ const Form = ({ addOrder }: FormProps) => {
     setBurritoCost(startingCost);
   };
 
+  const getPlaceholder = async () => {
+    const lukeSkywalker = await fetchStarWars(1);
+    setPlaceholder(lukeSkywalker.name);
+  };
+
+  useEffect(() => {
+    getPlaceholder();
+  }, [getPlaceholder]);
+
   useEffect(() => {
     calculateCost();
-  }, [protein, queso, toppings]);
+  }, [calculateCost, protein, queso, toppings]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     switch (event.target.id) {
@@ -96,6 +110,7 @@ const Form = ({ addOrder }: FormProps) => {
           <input
             type="text"
             id="name"
+            placeholder={placeholder}
             required
             aria-required="true"
             aria-describedby="nameError"
