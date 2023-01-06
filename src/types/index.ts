@@ -12,10 +12,6 @@ export type Toppings = {
 export type OrderType = {
   id: number;
   name: string;
-  phoneNumber: string;
-  emailAddress: string;
-  style: string;
-  rice: string;
   protein: string;
   queso: boolean | null;
   toppings: Toppings;

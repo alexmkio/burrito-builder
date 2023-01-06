@@ -18,10 +18,6 @@ type FormProps = {
 
 const Form = ({ addOrder }: FormProps) => {
   const [name, setName] = useState<string>("");
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [emailAddress, setEmailAddress] = useState<string>("");
-  const [style, setStyle] = useState<string>("");
-  const [rice, setRice] = useState<string>("");
   const [protein, setProtein] = useState<string>("");
   const [queso, setQueso] = useState<boolean | null>(null);
   const [toppings, setToppings] = useState<Toppings>(initialToppings);
@@ -45,17 +41,6 @@ const Form = ({ addOrder }: FormProps) => {
       case "name":
         setName(event.target.value);
         break;
-      case "phoneNumber":
-        setPhoneNumber(event.target.value);
-        break;
-      case "emailAddress":
-        setEmailAddress(event.target.value);
-        break;
-      case "style":
-        setStyle(event.target.value);
-        break;
-      case "rice":
-        setRice(event.target.value);
         break;
       case "protein":
         setProtein(event.target.value);
@@ -76,10 +61,6 @@ const Form = ({ addOrder }: FormProps) => {
 
   const resetForm = () => {
     setName("");
-    setPhoneNumber("");
-    setEmailAddress("");
-    setStyle("");
-    setRice("");
     setProtein("");
     setQueso(null);
     setToppings(initialToppings);
@@ -91,10 +72,6 @@ const Form = ({ addOrder }: FormProps) => {
     let order = {
       id: Date.now(),
       name,
-      phoneNumber,
-      emailAddress,
-      style,
-      rice,
       protein,
       queso,
       toppings,
@@ -127,112 +104,13 @@ const Form = ({ addOrder }: FormProps) => {
         </div>
 
         <label>
-          <span aria-hidden="true">*</span> Phone number:
           <input
-            type="text"
-            id="phoneNumber"
             required
             aria-required="true"
-            aria-describedby="phoneError"
-            value={phoneNumber}
             onChange={handleChange}
           />
         </label>
-        <div className="error" id="phoneError" aria-live="polite">
-          <p>Phone number is required</p>
         </div>
-
-        <label>
-          <span aria-hidden="true">*</span> Email address:
-          <input
-            type="text"
-            id="emailAddress"
-            required
-            aria-required="true"
-            aria-describedby="emailError"
-            value={emailAddress}
-            onChange={handleChange}
-          />
-        </label>
-        <div className="error" id="emailError" aria-live="polite">
-          <p>Email address is required</p>
-        </div>
-
-        <fieldset>
-          <legend>
-            <span aria-hidden="true">*</span> Pick your style:
-          </legend>
-          <label>
-            Burrito
-            <input
-              type="radio"
-              id="style"
-              value="burrito"
-              onChange={handleChange}
-              checked={style === "burrito"}
-              required
-              aria-required="true"
-              aria-describedby="styleError"
-            />
-          </label>
-          <label>
-            Bowl
-            <input
-              type="radio"
-              id="style"
-              value="bowl"
-              onChange={handleChange}
-              checked={style === "bowl"}
-            />
-          </label>
-          <label>
-            Tacos
-            <input
-              type="radio"
-              id="style"
-              value="tacos"
-              onChange={handleChange}
-              checked={style === "tacos"}
-            />
-          </label>
-          <label>
-            Salad
-            <input
-              type="radio"
-              id="style"
-              value="salad"
-              onChange={handleChange}
-              checked={style === "salad"}
-            />
-          </label>
-        </fieldset>
-        <div className="error" id="styleError" aria-live="polite">
-          <p>Style is required</p>
-        </div>
-
-        <fieldset>
-          <legend>Rice:</legend>
-          <label>
-            White
-            <input
-              type="radio"
-              id="rice"
-              value="white"
-              onChange={handleChange}
-              checked={rice === "white"}
-            />
-          </label>
-          <label>
-            Brown
-            <input
-              type="radio"
-              id="rice"
-              value="brown"
-              onChange={handleChange}
-              checked={rice === "brown"}
-            />
-          </label>
-        </fieldset>
 
         <fieldset>
           <legend>Protein:</legend>
