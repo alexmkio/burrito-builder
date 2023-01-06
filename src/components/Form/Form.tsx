@@ -1,6 +1,7 @@
 import "./Form.scss";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { Toppings, OrderType } from "../../types";
+import { makeMinDateTimeString, makeMaxDateTimeString } from "../../util/date-utils";
 
 const initialToppings = {
   tomatoSalsa: false,
@@ -18,6 +19,7 @@ type FormProps = {
 
 const Form = ({ addOrder }: FormProps) => {
   const [name, setName] = useState<string>("");
+  const [pickupTime, setPickupTime] = useState<string>(makeMinDateTimeString());
   const [protein, setProtein] = useState<string>("");
   const [queso, setQueso] = useState<boolean | null>(null);
   const [toppings, setToppings] = useState<Toppings>(initialToppings);
@@ -41,6 +43,8 @@ const Form = ({ addOrder }: FormProps) => {
       case "name":
         setName(event.target.value);
         break;
+      case "pickup-time":
+        setPickupTime(event.target.value);
         break;
       case "protein":
         setProtein(event.target.value);
@@ -104,12 +108,21 @@ const Form = ({ addOrder }: FormProps) => {
         </div>
 
         <label>
+          Pickup Time:
           <input
+            type="datetime-local"
+            id="pickup-time"
+            value={pickupTime}
+            min={makeMinDateTimeString()}
+            max={makeMaxDateTimeString()}
             required
             aria-required="true"
+            aria-describedby="nameError"
             onChange={handleChange}
           />
         </label>
+        <div className="error" id="dueError" aria-live="polite">
+          <p>Name is required</p>
         </div>
 
         <fieldset>
