@@ -24,6 +24,7 @@ type FormProps = {
 const Form = ({ addOrder }: FormProps) => {
   const [name, setName] = useState<string>("");
   const [placeholder, setPlaceholder] = useState<string>("Placeholder");
+  const [email, setEmail] = useState<string>("");
   const [pickupTime, setPickupTime] = useState<string>(makeMinDateTimeString());
   const [quantity, setQuantity] = useState<number>(1);
   const [protein, setProtein] = useState<string>("");
@@ -57,6 +58,9 @@ const Form = ({ addOrder }: FormProps) => {
     switch (event.target.id) {
       case "name":
         setName(event.target.value);
+        break;
+      case "email":
+        setEmail(event.target.value);
         break;
       case "pickup-time":
         setPickupTime(event.target.value);
@@ -95,6 +99,7 @@ const Form = ({ addOrder }: FormProps) => {
     let order = {
       id: Date.now(),
       name,
+      email,
       pickupTime,
       quantity,
       protein,
@@ -128,6 +133,17 @@ const Form = ({ addOrder }: FormProps) => {
         <div className="error" id="nameError" aria-live="polite">
           <p>Name is required</p>
         </div>
+
+        <label>
+          Email address:
+          <input
+            type="email"
+            id="email"
+            placeholder="you@domain.com"
+            value={email}
+            onChange={handleChange}
+          />
+        </label>
 
         <label>
           Pickup Time:
