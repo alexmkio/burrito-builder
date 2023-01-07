@@ -13,6 +13,7 @@ export type OrderType = {
   id: number;
   name: string;
   pickupTime: string;
+  quantity: number;
   protein: string;
   queso: boolean | null;
   toppings: Toppings;

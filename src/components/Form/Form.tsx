@@ -25,6 +25,7 @@ const Form = ({ addOrder }: FormProps) => {
   const [name, setName] = useState<string>("");
   const [placeholder, setPlaceholder] = useState<string>("Placeholder");
   const [pickupTime, setPickupTime] = useState<string>(makeMinDateTimeString());
+  const [quantity, setQuantity] = useState<number>(1);
   const [protein, setProtein] = useState<string>("");
   const [queso, setQueso] = useState<boolean | null>(null);
   const [toppings, setToppings] = useState<Toppings>(initialToppings);
@@ -60,6 +61,9 @@ const Form = ({ addOrder }: FormProps) => {
       case "pickup-time":
         setPickupTime(event.target.value);
         break;
+      case "quantity":
+        setQuantity(Number(event.target.value));
+        break;
       case "protein":
         setProtein(event.target.value);
         break;
@@ -92,6 +96,7 @@ const Form = ({ addOrder }: FormProps) => {
       id: Date.now(),
       name,
       pickupTime,
+      quantity,
       protein,
       queso,
       toppings,
@@ -141,6 +146,18 @@ const Form = ({ addOrder }: FormProps) => {
         <div className="error" id="pickUpTimeError" aria-live="polite">
           <p>Pick up time is required</p>
         </div>
+
+        <label>
+          Quantity (1-10):
+          <input
+            type="number"
+            id="quantity"
+            value={quantity}
+            min={1}
+            max={10}
+            onChange={handleChange}
+          />
+        </label>
 
         <fieldset>
           <legend>Protein:</legend>

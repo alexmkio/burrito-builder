@@ -24,6 +24,7 @@ const Burrito = ({ order }: BurritoProps) => {
     <article>
       <h2>Name: {order.name}</h2>
       <p>Pickup Time: {new Date(order.pickupTime).toLocaleString()}</p>
+      <p>Quantity: {order.quantity}</p>
       <p>Protein: {order.protein}</p>
       <p>Queso: {order.queso ? "yes" : "no"}</p>
       <p>Toppings: {orderedToppings.length ? "" : "none"}</p>
