@@ -79,6 +79,7 @@ const Form = ({ addOrder }: FormProps) => {
 
   const resetForm = () => {
     setName("");
+    setPickupTime(makeMinDateTimeString());
     setProtein("");
     setQueso(null);
     setToppings(initialToppings);
@@ -90,6 +91,7 @@ const Form = ({ addOrder }: FormProps) => {
     let order = {
       id: Date.now(),
       name,
+      pickupTime,
       protein,
       queso,
       toppings,
@@ -136,8 +138,8 @@ const Form = ({ addOrder }: FormProps) => {
             onChange={handleChange}
           />
         </label>
-        <div className="error" id="dueError" aria-live="polite">
-          <p>Name is required</p>
+        <div className="error" id="pickUpTimeError" aria-live="polite">
+          <p>Pick up time is required</p>
         </div>
 
         <fieldset>
