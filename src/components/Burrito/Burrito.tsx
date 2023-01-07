@@ -28,11 +28,13 @@ const Burrito = ({ order }: BurritoProps) => {
       <p>Protein: {order.protein}</p>
       <p>Queso: {order.queso ? "yes" : "no"}</p>
       <p>Toppings: {orderedToppings.length ? "" : "none"}</p>
-      <ul>
-        {orderedToppings.map((e) => (
-          <li key={e}>{toppingNames[e]}</li>
-        ))}
-      </ul>
+      {orderedToppings.length > 0 && (
+        <ul>
+          {orderedToppings.map((e) => (
+            <li key={e}>{toppingNames[e]}</li>
+          ))}
+        </ul>
+      )}
     </article>
   );
 };
