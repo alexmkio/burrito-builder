@@ -1,6 +1,11 @@
 import "./Form.scss";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { Toppings, OrderType } from "../../types";
+import {
+  makeMinDateTimeString,
+  makeMaxDateTimeString,
+} from "../../util/date-utils";
+import { fetchStarWars } from "../../util/fetch";
 
 const initialToppings = {
   tomatoSalsa: false,
@@ -18,10 +23,10 @@ type FormProps = {
 
 const Form = ({ addOrder }: FormProps) => {
   const [name, setName] = useState<string>("");
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [emailAddress, setEmailAddress] = useState<string>("");
-  const [style, setStyle] = useState<string>("");
-  const [rice, setRice] = useState<string>("");
+  const [placeholder, setPlaceholder] = useState<string>("Placeholder");
+  const [email, setEmail] = useState<string>("");
+  const [pickupTime, setPickupTime] = useState<string>(makeMinDateTimeString());
+  const [quantity, setQuantity] = useState<number>(1);
   const [protein, setProtein] = useState<string>("");
   const [queso, setQueso] = useState<boolean | null>(null);
   const [toppings, setToppings] = useState<Toppings>(initialToppings);
@@ -36,26 +41,32 @@ const Form = ({ addOrder }: FormProps) => {
     setBurritoCost(startingCost);
   };
 
+  const getPlaceholder = async () => {
+    const lukeSkywalker = await fetchStarWars(1);
+    setPlaceholder(lukeSkywalker.name);
+  };
+
+  useEffect(() => {
+    getPlaceholder();
+  }, [getPlaceholder]);
+
   useEffect(() => {
     calculateCost();
-  }, [protein, queso, toppings]);
+  }, [calculateCost, protein, queso, toppings]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     switch (event.target.id) {
       case "name":
         setName(event.target.value);
         break;
-      case "phoneNumber":
-        setPhoneNumber(event.target.value);
+      case "email":
+        setEmail(event.target.value);
         break;
-      case "emailAddress":
-        setEmailAddress(event.target.value);
+      case "pickup-time":
+        setPickupTime(event.target.value);
         break;
-      case "style":
-        setStyle(event.target.value);
-        break;
-      case "rice":
-        setRice(event.target.value);
+      case "quantity":
+        setQuantity(Number(event.target.value));
         break;
       case "protein":
         setProtein(event.target.value);
@@ -76,10 +87,7 @@ const Form = ({ addOrder }: FormProps) => {
 
   const resetForm = () => {
     setName("");
-    setPhoneNumber("");
-    setEmailAddress("");
-    setStyle("");
-    setRice("");
+    setPickupTime(makeMinDateTimeString());
     setProtein("");
     setQueso(null);
     setToppings(initialToppings);
@@ -91,10 +99,9 @@ const Form = ({ addOrder }: FormProps) => {
     let order = {
       id: Date.now(),
       name,
-      phoneNumber,
-      emailAddress,
-      style,
-      rice,
+      email,
+      pickupTime,
+      quantity,
       protein,
       queso,
       toppings,
@@ -115,6 +122,7 @@ const Form = ({ addOrder }: FormProps) => {
           <input
             type="text"
             id="name"
+            placeholder={placeholder}
             required
             aria-required="true"
             aria-describedby="nameError"
@@ -127,112 +135,45 @@ const Form = ({ addOrder }: FormProps) => {
         </div>
 
         <label>
-          <span aria-hidden="true">*</span> Phone number:
+          Email address:
           <input
-            type="text"
-            id="phoneNumber"
-            required
-            aria-required="true"
-            aria-describedby="phoneError"
-            value={phoneNumber}
+            type="email"
+            id="email"
+            placeholder="you@domain.com"
+            value={email}
             onChange={handleChange}
           />
         </label>
-        <div className="error" id="phoneError" aria-live="polite">
-          <p>Phone number is required</p>
+
+        <label>
+          Pickup Time:
+          <input
+            type="datetime-local"
+            id="pickup-time"
+            value={pickupTime}
+            min={makeMinDateTimeString()}
+            max={makeMaxDateTimeString()}
+            required
+            aria-required="true"
+            aria-describedby="nameError"
+            onChange={handleChange}
+          />
+        </label>
+        <div className="error" id="pickUpTimeError" aria-live="polite">
+          <p>Pick up time is required</p>
         </div>
 
         <label>
-          <span aria-hidden="true">*</span> Email address:
+          Quantity (1-10):
           <input
-            type="text"
-            id="emailAddress"
-            required
-            aria-required="true"
-            aria-describedby="emailError"
-            value={emailAddress}
+            type="number"
+            id="quantity"
+            value={quantity}
+            min={1}
+            max={10}
             onChange={handleChange}
           />
         </label>
-        <div className="error" id="emailError" aria-live="polite">
-          <p>Email address is required</p>
-        </div>
-
-        <fieldset>
-          <legend>
-            <span aria-hidden="true">*</span> Pick your style:
-          </legend>
-          <label>
-            Burrito
-            <input
-              type="radio"
-              id="style"
-              value="burrito"
-              onChange={handleChange}
-              checked={style === "burrito"}
-              required
-              aria-required="true"
-              aria-describedby="styleError"
-            />
-          </label>
-          <label>
-            Bowl
-            <input
-              type="radio"
-              id="style"
-              value="bowl"
-              onChange={handleChange}
-              checked={style === "bowl"}
-            />
-          </label>
-          <label>
-            Tacos
-            <input
-              type="radio"
-              id="style"
-              value="tacos"
-              onChange={handleChange}
-              checked={style === "tacos"}
-            />
-          </label>
-          <label>
-            Salad
-            <input
-              type="radio"
-              id="style"
-              value="salad"
-              onChange={handleChange}
-              checked={style === "salad"}
-            />
-          </label>
-        </fieldset>
-        <div className="error" id="styleError" aria-live="polite">
-          <p>Style is required</p>
-        </div>
-
-        <fieldset>
-          <legend>Rice:</legend>
-          <label>
-            White
-            <input
-              type="radio"
-              id="rice"
-              value="white"
-              onChange={handleChange}
-              checked={rice === "white"}
-            />
-          </label>
-          <label>
-            Brown
-            <input
-              type="radio"
-              id="rice"
-              value="brown"
-              onChange={handleChange}
-              checked={rice === "brown"}
-            />
-          </label>
-        </fieldset>
 
         <fieldset>
           <legend>Protein:</legend>
