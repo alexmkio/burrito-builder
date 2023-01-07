@@ -6,11 +6,6 @@ type BurritoProps = {
 };
 
 const Burrito = ({ order }: BurritoProps) => {
-  const dateSubmitted = new Date(order.id);
-  let riceString = "";
-  if (order.rice === "white") riceString = " white rice,";
-  if (order.rice === "brown") riceString = " brown rice,";
-  let quesoString = order.queso ? " queso," : "";
   const toppingNames: ToppingNames = {
     tomatoSalsa: "tomato salsa",
     greenChiliSalsa: "green chili salsa",
@@ -20,48 +15,23 @@ const Burrito = ({ order }: BurritoProps) => {
     lettuce: "lettuce",
     guacamole: "guacamole",
   };
-  let toppingsString = Object.keys(order.toppings).reduce(
-    (acc, currentValue) => {
-      if (order.toppings[currentValue])
-        acc += ` ${toppingNames[currentValue]},`;
-      return acc;
-    },
-    ""
+
+  let orderedToppings = Object.keys(order.toppings).filter(
+    (e) => order.toppings[e]
   );
-  const constructOrderString = () => {
-    let orderStringWithTrailingComma = `A ${order.protein} ${order.style} with${riceString}${quesoString}${toppingsString}`;
-    let orderStringWithTrailingPeriod = `${orderStringWithTrailingComma.substring(
-      0,
-      orderStringWithTrailingComma.length - 1
-    )}.`;
-    let numberOfCommas = orderStringWithTrailingPeriod.split(",").length - 1;
-    let replacementString;
-    if (numberOfCommas === 0) {
-      return `A ${order.protein} ${order.style}.`;
-    } else if (numberOfCommas === 1) {
-      replacementString = " and";
-    } else if (numberOfCommas >= 2) {
-      replacementString = ", and";
-    }
-    return (
-      orderStringWithTrailingPeriod.substring(
-        0,
-        orderStringWithTrailingPeriod.lastIndexOf(",")
-      ) +
-      replacementString +
-      orderStringWithTrailingPeriod.substring(
-        orderStringWithTrailingPeriod.lastIndexOf(",") + 1
-      )
-    );
-  };
-  const orderString = constructOrderString();
+
   return (
     <article>
       <h2>Name: {order.name}</h2>
-      <p>
-        <b>Time of order: {dateSubmitted.toLocaleString("en-US")}</b>
-      </p>
-      <p>Order: {orderString}</p>
+      <p>Pickup Time: {new Date(order.pickupTime).toLocaleString()}</p>
+      <p>Protein: {order.protein}</p>
+      <p>Queso: {order.queso ? "yes" : "no"}</p>
+      <p>Toppings: {orderedToppings.length ? "" : "none"}</p>
+      <ul>
+        {orderedToppings.map((e) => (
+          <li key={e}>{toppingNames[e]}</li>
+        ))}
+      </ul>
     </article>
   );
 };
