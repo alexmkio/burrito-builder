@@ -1,5 +1,5 @@
 import "./Orders.scss";
-import Burrito from "../Burrito/Burrito";
+import BurritoCard from "../BurritoCard/BurritoCard";
 import { OrderType } from "../../types";
 import type { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
@@ -10,7 +10,11 @@ type OrdersProps = {
 
 const Orders = () => {
   const orders = useSelector((state: RootState) => state.orders.value);
-  const list = orders.map((order) => <Burrito order={order} key={order.id} />);
+  const list = orders.map((order) => (
+    <article key={order.id}>
+        <BurritoCard order={order} />
+    </article>
+  ));
 
   return (
     <section>
