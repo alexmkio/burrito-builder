@@ -1,11 +1,22 @@
 import "./Burrito.scss";
-import { OrderType, ToppingNames } from "../../types";
+import { ToppingNames } from "../../types";
+import type { RootState } from "../../app/store";
+import { useSelector } from "react-redux";
+import { useLoaderData } from "react-router-dom";
+import { urlParams } from "../../types";
+import { OrderType } from "../../types";
 
-type BurritoProps = {
-  order: OrderType;
-};
+export async function loader({ params }: urlParams) {
+  return Number(params.orderId);
+}
 
-const Burrito = ({ order }: BurritoProps) => {
+const Burrito = () => {
+  const orderId = useLoaderData();
+  const orders = useSelector((state: RootState) => state.orders.value);
+  const order: OrderType | undefined = orders.find(
+    (order) => order.id === orderId
+  );
+
   const toppingNames: ToppingNames = {
     tomatoSalsa: "tomato salsa",
     greenChiliSalsa: "green chili salsa",
