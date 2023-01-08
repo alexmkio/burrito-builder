@@ -13,7 +13,7 @@ const Orders = () => {
   const orders = useSelector((state: RootState) => state.orders.value);
   const list = orders.map((order) => (
     <article key={order.id}>
-      <Link to={`order/${order.id}`}>
+      <Link to={`../order/${order.id}`}>
         <BurritoCard order={order} />
       </Link>
     </article>
