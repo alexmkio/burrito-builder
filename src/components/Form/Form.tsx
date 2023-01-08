@@ -6,6 +6,8 @@ import {
   makeMaxDateTimeString,
 } from "../../util/date-utils";
 import { fetchStarWars } from "../../util/fetch";
+import { useDispatch } from "react-redux";
+import { addOrder } from "../../features/orders/ordersSlice";
 
 const initialToppings = {
   tomatoSalsa: false,
@@ -17,11 +19,7 @@ const initialToppings = {
   guacamole: false,
 };
 
-type FormProps = {
-  addOrder: (order: OrderType) => void;
-};
-
-const Form = ({ addOrder }: FormProps) => {
+const Form = () => {
   const [name, setName] = useState<string>("");
   const [placeholder, setPlaceholder] = useState<string>("Placeholder");
   const [email, setEmail] = useState<string>("");
@@ -31,6 +29,7 @@ const Form = ({ addOrder }: FormProps) => {
   const [queso, setQueso] = useState<boolean | null>(null);
   const [toppings, setToppings] = useState<Toppings>(initialToppings);
   const [burritoCost, setBurritoCost] = useState<number>(7.15);
+  const dispatch = useDispatch();
 
   const calculateCost = () => {
     let startingCost = 7.15;
@@ -87,6 +86,7 @@ const Form = ({ addOrder }: FormProps) => {
 
   const resetForm = () => {
     setName("");
+    setEmail("");
     setPickupTime(makeMinDateTimeString());
     setProtein("");
     setQueso(null);
@@ -107,7 +107,7 @@ const Form = ({ addOrder }: FormProps) => {
       toppings,
       burritoCost,
     };
-    addOrder(order);
+    dispatch(addOrder(order));
     resetForm();
   };
 
