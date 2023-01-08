@@ -1,0 +1,7 @@
+.form-and-orders-container {
+  display: flex;
+
+  > * {
+    width: 50%;
+  }
+}
