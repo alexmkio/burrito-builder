@@ -31,9 +31,3 @@ export type ToppingNames = {
   lettuce: string;
   guacamole: string;
 };
-
-export type urlParams = {
-  params: {
-    orderId: string;
-  }
-};

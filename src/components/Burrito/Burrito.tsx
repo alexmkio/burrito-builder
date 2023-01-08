@@ -2,16 +2,12 @@ import "./Burrito.scss";
 import { ToppingNames } from "../../types";
 import type { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
-import { useLoaderData } from "react-router-dom";
-import { urlParams } from "../../types";
+import { useLoaderData, useLocation } from "react-router-dom";
 import { OrderType } from "../../types";
 
-export async function loader({ params }: urlParams) {
-  return Number(params.orderId);
-}
-
 const Burrito = () => {
-  const orderId = useLoaderData();
+  const pathArray = useLocation().pathname.split('/');
+  const orderId = Number(pathArray[pathArray.length - 1])
   const orders = useSelector((state: RootState) => state.orders.value);
   const order: OrderType | undefined = orders.find(
     (order) => order.id === orderId

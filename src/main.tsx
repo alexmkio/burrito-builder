@@ -7,7 +7,7 @@ import { createHashRouter, RouterProvider } from "react-router-dom";
 import Root from "./routes/root";
 import FormAndOrders from "./components/FormAndOrders/FormAndOrders";
 import Orders from "./components/Orders/Orders";
-import Burrito, { loader as burritoLoader } from "./components/Burrito/Burrito";
+import Burrito from "./components/Burrito/Burrito";
 
 const router = createHashRouter([
   {
@@ -25,7 +25,6 @@ const router = createHashRouter([
       {
         path: "order/:orderId",
         element: <Burrito />,
-        loader: burritoLoader,
       },
     ],
   },
