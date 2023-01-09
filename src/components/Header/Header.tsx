@@ -5,6 +5,16 @@ import { useLocation } from "react-router-dom";
 
 function Header() {
   let path = useLocation().pathname;
+  const homeLink = (
+    <Link to="/" aria-label="Navigate to home page">
+      Home
+    </Link>
+  );
+  const ordersLink = (
+    <Link to="orders/" aria-label="Navigate to orders page">
+      Orders
+    </Link>
+  );
 
   return (
     <header>
@@ -12,13 +22,13 @@ function Header() {
       <h1>Burrito Builder</h1>
       <nav>
         {path === "/" ? (
-          <Link to="orders/">Orders</Link>
+          <>{ordersLink}</>
         ) : path === "/orders/" ? (
-          <Link to="/">Home</Link>
+          <>{homeLink}</>
         ) : (
           <>
-            <Link to="/">Home</Link>
-            <Link to="orders/">Orders</Link>
+            {homeLink}
+            {ordersLink}
           </>
         )}
       </nav>
