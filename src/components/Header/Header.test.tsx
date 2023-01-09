@@ -1,8 +1,10 @@
 import { describe, it, expect, afterEach } from "vitest";
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import Header from "./Header";
 import { MemoryRouter } from "react-router-dom";
 import { renderWithRouter } from "../../util/test-utils";
+import { createMemoryHistory } from "history";
+import userEvent from "@testing-library/user-event";
 
 describe("Header Tests", () => {
   afterEach(() => {
@@ -31,7 +33,7 @@ describe("Header Tests", () => {
     ).toBeTruthy();
   });
 
-  it("at '/' route has link to orders page", () => {
+  it("at '/' route has link to orders page", async () => {
     const route = "/";
 
     render(
@@ -41,8 +43,37 @@ describe("Header Tests", () => {
     );
 
     expect(
-      screen.getByRole("link", { name: /Navigate to orders page/i })
+      screen.getByRole("link", {
+        name: /Navigate to orders page/i,
+      })
     ).toBeTruthy();
+  });
+
+  // https://testing-library.com/docs/example-react-router/#testing-library-and-react-router-v5
+  // Or can I test value of href?
+  it.skip("the link to orders page works as intended", async () => {
+    const route = "/";
+    const history = createMemoryHistory();
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter
+        initialEntries={[route]}
+        location={history.location}
+        navigator={history}
+      >
+        <Header />
+      </MemoryRouter>
+    );
+
+    await user.click(
+      screen.getByRole("link", {
+        name: /Navigate to orders page/i,
+      })
+    );
+    await waitFor(() => {
+      expect(history.location.pathname).toBe("/orders/");
+    });
   });
 
   it("at '/' route does not have link to home page", () => {
