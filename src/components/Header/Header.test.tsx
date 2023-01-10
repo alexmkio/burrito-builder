@@ -1,10 +1,7 @@
 import { describe, it, expect, afterEach } from "vitest";
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, screen, waitFor } from "@testing-library/react";
 import Header from "./Header";
-import { MemoryRouter } from "react-router-dom";
 import { renderWithRouter } from "../../util/test-utils";
-import { createMemoryHistory } from "history";
-import userEvent from "@testing-library/user-event";
 
 describe("Header Tests", () => {
   afterEach(() => {
@@ -12,139 +9,132 @@ describe("Header Tests", () => {
   });
 
   it("has a logo", () => {
-    render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
-    );
+    renderWithRouter(<Header />);
 
     expect(screen.getByRole("img", { name: /React logo/i })).toBeTruthy();
   });
 
   it("has a heading element", () => {
-    render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
-    );
+    renderWithRouter(<Header />);
 
     expect(
       screen.getByRole("heading", { name: /Burrito Builder/i })
     ).toBeTruthy();
   });
 
-  it("at '/' route has link to orders page", async () => {
-    const route = "/";
+  describe("Describes '/' Route", () => {
+    it("has a link to orders page", async () => {
+      const { history } = renderWithRouter(<Header />);
 
-    render(
-      <MemoryRouter initialEntries={[route]}>
-        <Header />
-      </MemoryRouter>
-    );
+      expect(history.location.pathname).toBe("/");
 
-    expect(
-      screen.getByRole("link", {
+      let ordersLink = screen.getByRole("link", {
         name: /Navigate to orders page/i,
-      })
-    ).toBeTruthy();
-  });
+      });
 
-  // https://testing-library.com/docs/example-react-router/#testing-library-and-react-router-v5
-  // Or can I test value of href?
-  it.skip("the link to orders page works as intended", async () => {
-    const route = "/";
-    const history = createMemoryHistory();
-    const user = userEvent.setup();
+      expect(ordersLink).toBeTruthy();
+    });
 
-    render(
-      <MemoryRouter
-        initialEntries={[route]}
-        location={history.location}
-        navigator={history}
-      >
-        <Header />
-      </MemoryRouter>
-    );
+    it("the link to orders page works as intended", async () => {
+      const { user, history } = renderWithRouter(<Header />);
 
-    await user.click(
-      screen.getByRole("link", {
-        name: /Navigate to orders page/i,
-      })
-    );
-    await waitFor(() => {
-      expect(history.location.pathname).toBe("/orders/");
+      await user.click(
+        screen.getByRole("link", {
+          name: /Navigate to orders page/i,
+        })
+      );
+
+      await waitFor(() => {
+        expect(history.location.pathname).toBe("/orders/");
+      });
+    });
+
+    it("does not have a link to home page", () => {
+      renderWithRouter(<Header />);
+
+      expect(
+        screen.queryByRole("link", { name: /Navigate to home page/i })
+      ).toBeFalsy();
     });
   });
 
-  it("at '/' route does not have link to home page", () => {
-    const route = "/";
+  describe("Describes '/orders/' Route", () => {
+    it("has a link to home page", () => {
+      const { history } = renderWithRouter(<Header />, "/orders/");
 
-    render(
-      <MemoryRouter initialEntries={[route]}>
-        <Header />
-      </MemoryRouter>
-    );
+      expect(history.location.pathname).toBe("/orders/");
 
-    expect(
-      screen.queryByRole("link", { name: /Navigate to home page/i })
-    ).toBeFalsy();
+      expect(
+        screen.getByRole("link", { name: /Navigate to home page/i })
+      ).toBeTruthy();
+    });
+
+    it("the link to home page works as intended", async () => {
+      const { user, history } = renderWithRouter(<Header />, "/orders/");
+
+      await user.click(
+        screen.getByRole("link", {
+          name: /Navigate to home page/i,
+        })
+      );
+
+      await waitFor(() => {
+        expect(history.location.pathname).toBe("/");
+      });
+    });
+
+    it("does not have a link to home page", () => {
+      const { history } = renderWithRouter(<Header />, "/orders/");
+
+      expect(history.location.pathname).toBe("/orders/");
+
+      expect(
+        screen.queryByRole("link", { name: /Navigate to orders page/i })
+      ).toBeFalsy();
+    });
   });
 
-  it("at '/orders/' route has link to orders page", () => {
-    const route = "/orders/";
+  describe("Describes '/orders/:orderId' Route", () => {
+    it("has a link to home & orders page", () => {
+      const { history } = renderWithRouter(<Header />, "/orders/123");
 
-    render(
-      <MemoryRouter initialEntries={[route]}>
-        <Header />
-      </MemoryRouter>
-    );
+      expect(history.location.pathname).toBe("/orders/123");
 
-    expect(
-      screen.getByRole("link", { name: /Navigate to home page/i })
-    ).toBeTruthy();
-  });
+      expect(
+        screen.getByRole("link", { name: /Navigate to home page/i })
+      ).toBeTruthy();
 
-  it("at '/orders/' route does not have link to home page", () => {
-    const route = "/orders/";
+      expect(
+        screen.getByRole("link", { name: /Navigate to orders page/i })
+      ).toBeTruthy();
+    });
 
-    render(
-      <MemoryRouter initialEntries={[route]}>
-        <Header />
-      </MemoryRouter>
-    );
+    it("the link to home page works as intended", async () => {
+      const { user, history } = renderWithRouter(<Header />, "/orders/123");
 
-    expect(
-      screen.queryByRole("link", { name: /Navigate to orders page/i })
-    ).toBeFalsy();
-  });
+      await user.click(
+        screen.getByRole("link", {
+          name: /Navigate to home page/i,
+        })
+      );
 
-  it("at '/order/:orderID' route has link to home & orders page", () => {
-    const route = "/order/123";
+      await waitFor(() => {
+        expect(history.location.pathname).toBe("/");
+      });
+    });
 
-    render(
-      <MemoryRouter initialEntries={[route]}>
-        <Header />
-      </MemoryRouter>
-    );
+    it("the link to orders page works as intended", async () => {
+      const { user, history } = renderWithRouter(<Header />, "/orders/123");
 
-    expect(
-      screen.getByRole("link", { name: /Navigate to home page/i })
-    ).toBeTruthy();
+      await user.click(
+        screen.getByRole("link", {
+          name: /Navigate to orders page/i,
+        })
+      );
 
-    expect(
-      screen.getByRole("link", { name: /Navigate to orders page/i })
-    ).toBeTruthy();
-  });
-
-  it.skip("a failed attempt to use a customRenderer helper fn", () => {
-    renderWithRouter(<Header />, { route: "/orders/" });
-
-    expect(
-      screen.getByRole("link", { name: /Navigate to home page/i })
-    ).toBeTruthy();
-
-    expect(
-      screen.queryByRole("link", { name: /Navigate to orders page/i })
-    ).toBeFalsy();
+      await waitFor(() => {
+        expect(history.location.pathname).toBe("/orders/");
+      });
+    });
   });
 });
