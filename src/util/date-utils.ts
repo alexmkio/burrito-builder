@@ -1,5 +1,5 @@
 const padNumber = (number: number) => {
-  return number > 10 ? number.toString() : `0${number}`;
+  return number >= 10 ? number.toString() : `0${number}`;
 };
 
 const returnTodaysDate = () => {
