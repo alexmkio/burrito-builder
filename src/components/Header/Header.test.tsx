@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from "vitest";
-import { cleanup, screen, waitFor } from "@testing-library/react";
+import { cleanup, screen, waitFor, within } from "@testing-library/react";
 import Header from "./Header";
 import { renderWithRouter } from "../../util/test-utils";
 
@@ -28,18 +28,22 @@ describe("Header Tests", () => {
 
       expect(history.location.pathname).toBe("/");
 
-      let ordersLink = screen.getByRole("link", {
-        name: /Navigate to orders page/i,
-      });
+      const nav = screen.getByRole("navigation");
 
-      expect(ordersLink).toBeTruthy();
+      expect(
+        within(nav).getByRole("link", {
+          name: /Navigate to orders page/i,
+        })
+      ).toBeTruthy();
     });
 
     it("the link to orders page works as intended", async () => {
       const { user, history } = renderWithRouter(<Header />);
 
+      const nav = screen.getByRole("navigation");
+
       await user.click(
-        screen.getByRole("link", {
+        within(nav).getByRole("link", {
           name: /Navigate to orders page/i,
         })
       );
@@ -64,16 +68,20 @@ describe("Header Tests", () => {
 
       expect(history.location.pathname).toBe("/orders/");
 
+      const nav = screen.getByRole("navigation");
+
       expect(
-        screen.getByRole("link", { name: /Navigate to home page/i })
+        within(nav).getByRole("link", { name: /Navigate to home page/i })
       ).toBeTruthy();
     });
 
     it("the link to home page works as intended", async () => {
       const { user, history } = renderWithRouter(<Header />, "/orders/");
 
+      const nav = screen.getByRole("navigation");
+
       await user.click(
-        screen.getByRole("link", {
+        within(nav).getByRole("link", {
           name: /Navigate to home page/i,
         })
       );
@@ -100,20 +108,24 @@ describe("Header Tests", () => {
 
       expect(history.location.pathname).toBe("/orders/123");
 
+      const nav = screen.getByRole("navigation");
+
       expect(
-        screen.getByRole("link", { name: /Navigate to home page/i })
+        within(nav).getByRole("link", { name: /Navigate to home page/i })
       ).toBeTruthy();
 
       expect(
-        screen.getByRole("link", { name: /Navigate to orders page/i })
+        within(nav).getByRole("link", { name: /Navigate to orders page/i })
       ).toBeTruthy();
     });
 
     it("the link to home page works as intended", async () => {
       const { user, history } = renderWithRouter(<Header />, "/orders/123");
 
+      const nav = screen.getByRole("navigation");
+
       await user.click(
-        screen.getByRole("link", {
+        within(nav).getByRole("link", {
           name: /Navigate to home page/i,
         })
       );
@@ -126,8 +138,10 @@ describe("Header Tests", () => {
     it("the link to orders page works as intended", async () => {
       const { user, history } = renderWithRouter(<Header />, "/orders/123");
 
+      const nav = screen.getByRole("navigation");
+
       await user.click(
-        screen.getByRole("link", {
+        within(nav).getByRole("link", {
           name: /Navigate to orders page/i,
         })
       );
