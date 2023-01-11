@@ -1,5 +1,5 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { Toppings, OrderType } from "../../types";
+import { Toppings } from "../../types";
 import {
   makeMinDateTimeString,
   makeMaxDateTimeString,
