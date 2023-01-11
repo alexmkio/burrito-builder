@@ -4,29 +4,22 @@ import "./index.scss";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import { createHashRouter, RouterProvider } from "react-router-dom";
-import Root from "./routes/root";
-import FormAndOrders from "./components/FormAndOrders/FormAndOrders";
-import Orders from "./components/Orders/Orders";
-import Burrito from "./components/Burrito/Burrito";
+import RootRoute from "./routes/root";
+import OrdersRoute from "./routes/orders";
+import OrderRoute from "./routes/order";
 
 const router = createHashRouter([
   {
     path: "/",
-    element: <Root />,
-    children: [
-      {
-        path: "/",
-        element: <FormAndOrders />,
-      },
-      {
-        path: "orders/",
-        element: <Orders />,
-      },
-      {
-        path: "order/:orderId",
-        element: <Burrito />,
-      },
-    ],
+    element: <RootRoute />,
+  },
+  {
+    path: "orders/",
+    element: <OrdersRoute />,
+  },
+  {
+    path: "order/:orderId",
+    element: <OrderRoute />,
   },
 ]);
 
