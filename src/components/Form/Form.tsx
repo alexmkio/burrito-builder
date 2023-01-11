@@ -1,4 +1,3 @@
-import "./Form.scss";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { Toppings, OrderType } from "../../types";
 import {

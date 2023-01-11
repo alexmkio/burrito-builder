@@ -1,4 +1,3 @@
-import "./Orders.scss";
 import BurritoCard from "../BurritoCard/BurritoCard";
 import { OrderType } from "../../types";
 import type { RootState } from "../../app/store";

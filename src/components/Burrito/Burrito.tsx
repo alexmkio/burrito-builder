@@ -1,4 +1,3 @@
-import "./Burrito.scss";
 import { ToppingNames } from "../../types";
 import type { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
