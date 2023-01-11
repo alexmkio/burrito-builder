@@ -6,12 +6,12 @@ import { useLocation } from "react-router-dom";
 function Header() {
   let path = useLocation().pathname;
   const homeLink = (
-    <Link to="/" aria-label="Navigate to home page">
+    <Link to="../" aria-label="Navigate to home page">
       Home
     </Link>
   );
   const ordersLink = (
-    <Link to="orders/" aria-label="Navigate to orders page">
+    <Link to="../orders/" aria-label="Navigate to orders page">
       Orders
     </Link>
   );
