@@ -36,7 +36,7 @@ const Form = () => {
     if (protein === "steak" || protein === "barbacoa") startingCost += 1.0;
     if (queso) startingCost += 1.3;
     if (protein.length && toppings.guacamole) startingCost += 2.25;
-    setBurritoCost(startingCost);
+    setBurritoCost(Number(startingCost.toFixed(2)));
   };
 
   const getPlaceholder = async () => {
@@ -336,7 +336,7 @@ const Form = () => {
 
         <input type="submit" value="Submit" />
       </form>
-      Cost: {burritoCost.toFixed(2)}
+      Cost: {burritoCost}
     </section>
   );
 };
