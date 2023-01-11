@@ -19,10 +19,11 @@ const initialToppings = {
 };
 
 const Form = () => {
+  let minDate = makeMinDateTimeString()
   const [name, setName] = useState<string>("");
   const [placeholder, setPlaceholder] = useState<string>("Placeholder");
   const [email, setEmail] = useState<string>("");
-  const [pickupTime, setPickupTime] = useState<string>(makeMinDateTimeString());
+  const [pickupTime, setPickupTime] = useState<string>(minDate);
   const [quantity, setQuantity] = useState<number>(1);
   const [protein, setProtein] = useState<string>("");
   const [queso, setQueso] = useState<boolean | null>(null);
@@ -150,7 +151,7 @@ const Form = () => {
             type="datetime-local"
             id="pickup-time"
             value={pickupTime}
-            min={makeMinDateTimeString()}
+            min={minDate}
             max={makeMaxDateTimeString()}
             required
             aria-required="true"
