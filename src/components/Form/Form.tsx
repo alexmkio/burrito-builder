@@ -5,8 +5,8 @@ import {
   makeMaxDateTimeString,
 } from "../../util/date-utils";
 import { fetchStarWars } from "../../util/fetch";
-import { useDispatch } from "react-redux";
 import { addOrder } from "../../features/orders/ordersSlice";
+import { useAppDispatch } from "../../app/hooks";
 
 const initialToppings = {
   tomatoSalsa: false,
@@ -29,7 +29,7 @@ const Form = () => {
   const [queso, setQueso] = useState<boolean | null>(null);
   const [toppings, setToppings] = useState<Toppings>(initialToppings);
   const [burritoCost, setBurritoCost] = useState<number>(7.15);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const calculateCost = () => {
     let startingCost = 7.15;

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { OrderType } from "../../types";
+import type { RootState } from "../../app/store";
 
 export interface OrderState {
   value: OrderType[];
@@ -19,6 +20,6 @@ export const ordersSlice = createSlice({
   },
 });
 
+export const selectOrders = (state: RootState) => state.orders.value;
 export const { addOrder } = ordersSlice.actions;
-
 export default ordersSlice.reducer;

@@ -1,7 +1,7 @@
 import { describe, it, expect, afterEach } from "vitest";
 import { cleanup, screen, waitFor, within } from "@testing-library/react";
 import Header from "./Header";
-import { renderWithRouter } from "../../util/test-utils";
+import { renderWithProviders } from "../../util/test-utils";
 
 describe("Header Tests", () => {
   afterEach(() => {
@@ -9,13 +9,13 @@ describe("Header Tests", () => {
   });
 
   it("has a logo", () => {
-    renderWithRouter(<Header />);
+    renderWithProviders(<Header />);
 
     expect(screen.getByRole("img", { name: /React logo/i })).toBeTruthy();
   });
 
   it("has a heading element", () => {
-    renderWithRouter(<Header />);
+    renderWithProviders(<Header />);
 
     expect(
       screen.getByRole("heading", { name: /Burrito Builder/i })
@@ -24,7 +24,7 @@ describe("Header Tests", () => {
 
   describe("Describes '/' Route", () => {
     it("has a link to orders page", async () => {
-      const { history } = renderWithRouter(<Header />);
+      const { history } = renderWithProviders(<Header />);
 
       expect(history.location.pathname).toBe("/");
 
@@ -38,7 +38,7 @@ describe("Header Tests", () => {
     });
 
     it("the link to orders page works as intended", async () => {
-      const { user, history } = renderWithRouter(<Header />);
+      const { user, history } = renderWithProviders(<Header />);
 
       const nav = screen.getByRole("navigation");
 
@@ -54,7 +54,7 @@ describe("Header Tests", () => {
     });
 
     it("does not have a link to home page", () => {
-      renderWithRouter(<Header />);
+      renderWithProviders(<Header />);
 
       expect(
         screen.queryByRole("link", { name: /Navigate to home page/i })
@@ -64,7 +64,7 @@ describe("Header Tests", () => {
 
   describe("Describes '/orders/' Route", () => {
     it("has a link to home page", () => {
-      const { history } = renderWithRouter(<Header />, "/orders/");
+      const { history } = renderWithProviders(<Header />, "/orders/");
 
       expect(history.location.pathname).toBe("/orders/");
 
@@ -76,7 +76,7 @@ describe("Header Tests", () => {
     });
 
     it("the link to home page works as intended", async () => {
-      const { user, history } = renderWithRouter(<Header />, "/orders/");
+      const { user, history } = renderWithProviders(<Header />, "/orders/");
 
       const nav = screen.getByRole("navigation");
 
@@ -92,7 +92,7 @@ describe("Header Tests", () => {
     });
 
     it("does not have a link to home page", () => {
-      const { history } = renderWithRouter(<Header />, "/orders/");
+      const { history } = renderWithProviders(<Header />, "/orders/");
 
       expect(history.location.pathname).toBe("/orders/");
 
@@ -104,7 +104,7 @@ describe("Header Tests", () => {
 
   describe("Describes '/orders/:orderId' Route", () => {
     it("has a link to home & orders page", () => {
-      const { history } = renderWithRouter(<Header />, "/orders/123");
+      const { history } = renderWithProviders(<Header />, "/orders/123");
 
       expect(history.location.pathname).toBe("/orders/123");
 
@@ -120,7 +120,7 @@ describe("Header Tests", () => {
     });
 
     it("the link to home page works as intended", async () => {
-      const { user, history } = renderWithRouter(<Header />, "/orders/123");
+      const { user, history } = renderWithProviders(<Header />, "/orders/123");
 
       const nav = screen.getByRole("navigation");
 
@@ -136,7 +136,7 @@ describe("Header Tests", () => {
     });
 
     it("the link to orders page works as intended", async () => {
-      const { user, history } = renderWithRouter(<Header />, "/orders/123");
+      const { user, history } = renderWithProviders(<Header />, "/orders/123");
 
       const nav = screen.getByRole("navigation");
 

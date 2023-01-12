@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
-import { store } from "./app/store";
+import { setupStore } from "./app/store";
 import { Provider } from "react-redux";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import RootRoute from "./routes/root";
@@ -25,7 +25,7 @@ const router = createHashRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <Provider store={store}>
+    <Provider store={setupStore()}>
       <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>
