@@ -23,7 +23,7 @@ const Orders = () => {
       {orders.length > 0 ? (
         <>
           <h2>Orders</h2>
-          <section>{list}</section>
+          {list}
         </>
       ) : (
         <h2>No Orders</h2>
