@@ -38,11 +38,7 @@ describe("Burrito Tests", () => {
     });
 
     it("has a heading element", () => {
-      expect(
-        screen.getByRole("heading", {
-          name: /order #: 1673407662856/i,
-        })
-      ).toBeTruthy();
+      expect(screen.getByRole("heading")).toBeTruthy();
     });
 
     it("displays an order ID", () => {
@@ -142,6 +138,28 @@ describe("Burrito Tests", () => {
     it("if there are no toppings it renders 'none' instead of a list", () => {
       expect(screen.getByText(/toppings: none/i)).toBeTruthy();
       expect(screen.queryByRole("list")).toBeFalsy();
+    });
+  });
+
+  describe("Describe the route without an order", () => {
+    beforeAll(() => {
+      renderWithProviders(<Burrito />, "/order/8675309");
+    });
+
+    afterAll(() => {
+      cleanup();
+    });
+
+    it("has a heading element", () => {
+      expect(screen.getByRole("heading")).toBeTruthy();
+    });
+
+    it("displays no orders found", () => {
+      expect(
+        screen.getByRole("heading", {
+          name: /order not found/i,
+        })
+      ).toBeTruthy();
     });
   });
 });
