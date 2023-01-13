@@ -34,7 +34,6 @@ describe("Burrito Tests", () => {
     });
 
     it("has a heading element", () => {
-      screen.logTestingPlaygroundURL()
       expect(screen.getByRole("heading")).toBeTruthy();
     });
 
