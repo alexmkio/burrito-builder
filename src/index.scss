@@ -1,0 +1,33 @@
+.form-and-orders-container {
+  display: flex;
+
+  > * {
+    width: 50%;
+  }
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  margin-bottom: 1em;
+
+  label {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    width: fit-content;
+
+    input[type="radio"] {
+      margin: 0 0.5em 0 0;
+    }
+  }
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}

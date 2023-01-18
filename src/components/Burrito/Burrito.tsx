@@ -1,14 +1,13 @@
-import "./Burrito.scss";
 import { ToppingNames } from "../../types";
-import type { RootState } from "../../app/store";
-import { useSelector } from "react-redux";
-import { useLoaderData, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { OrderType } from "../../types";
+import { useAppSelector } from "../../app/hooks";
+import { selectOrders } from "../../features/orders/ordersSlice";
 
 const Burrito = () => {
-  const pathArray = useLocation().pathname.split('/');
-  const orderId = Number(pathArray[pathArray.length - 1])
-  const orders = useSelector((state: RootState) => state.orders.value);
+  const pathArray = useLocation().pathname.split("/");
+  const orderId = Number(pathArray[pathArray.length - 1]);
+  const orders = useAppSelector(selectOrders);
   const order: OrderType | undefined = orders.find(
     (order) => order.id === orderId
   );
@@ -34,7 +33,8 @@ const Burrito = () => {
     <>
       {order && orderedToppings ? (
         <>
-          <h2>Name: {order.name}</h2>
+          <h2>Order #: {order.id}</h2>
+          <p>Name: {order.name}</p>
           <p>Pickup Time: {new Date(order.pickupTime).toLocaleString()}</p>
           <p>Quantity: {order.quantity}</p>
           <p>Protein: {order.protein}</p>

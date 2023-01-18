@@ -1,13 +1,12 @@
-import "./Form.scss";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { Toppings, OrderType } from "../../types";
+import { Toppings } from "../../types";
 import {
   makeMinDateTimeString,
   makeMaxDateTimeString,
 } from "../../util/date-utils";
 import { fetchStarWars } from "../../util/fetch";
-import { useDispatch } from "react-redux";
 import { addOrder } from "../../features/orders/ordersSlice";
+import { useAppDispatch } from "../../app/hooks";
 
 const initialToppings = {
   tomatoSalsa: false,
@@ -20,16 +19,17 @@ const initialToppings = {
 };
 
 const Form = () => {
+  let minDate = makeMinDateTimeString();
   const [name, setName] = useState<string>("");
   const [placeholder, setPlaceholder] = useState<string>("Placeholder");
   const [email, setEmail] = useState<string>("");
-  const [pickupTime, setPickupTime] = useState<string>(makeMinDateTimeString());
+  const [pickupTime, setPickupTime] = useState<string>(minDate);
   const [quantity, setQuantity] = useState<number>(1);
   const [protein, setProtein] = useState<string>("");
   const [queso, setQueso] = useState<boolean | null>(null);
   const [toppings, setToppings] = useState<Toppings>(initialToppings);
   const [burritoCost, setBurritoCost] = useState<number>(7.15);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const calculateCost = () => {
     let startingCost = 7.15;
@@ -37,7 +37,7 @@ const Form = () => {
     if (protein === "steak" || protein === "barbacoa") startingCost += 1.0;
     if (queso) startingCost += 1.3;
     if (protein.length && toppings.guacamole) startingCost += 2.25;
-    setBurritoCost(startingCost);
+    setBurritoCost(Number(startingCost.toFixed(2)));
   };
 
   const getPlaceholder = async () => {
@@ -146,12 +146,12 @@ const Form = () => {
         </label>
 
         <label>
-          Pickup Time:
+          <span aria-hidden="true">*</span> Pickup Time:
           <input
             type="datetime-local"
             id="pickup-time"
             value={pickupTime}
-            min={makeMinDateTimeString()}
+            min={minDate}
             max={makeMaxDateTimeString()}
             required
             aria-required="true"
@@ -337,7 +337,7 @@ const Form = () => {
 
         <input type="submit" value="Submit" />
       </form>
-      Cost: {burritoCost.toFixed(2)}
+      Cost: {burritoCost}
     </section>
   );
 };

@@ -1,4 +1,3 @@
-import "./BurritoCard.scss";
 import { OrderType, ToppingNames } from "../../types";
 
 type BurritoProps = {
