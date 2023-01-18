@@ -19,7 +19,7 @@ const initialToppings = {
 };
 
 const Form = () => {
-  let minDate = makeMinDateTimeString()
+  let minDate = makeMinDateTimeString();
   const [name, setName] = useState<string>("");
   const [placeholder, setPlaceholder] = useState<string>("Placeholder");
   const [email, setEmail] = useState<string>("");
