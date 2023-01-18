@@ -146,7 +146,7 @@ const Form = () => {
         </label>
 
         <label>
-          Pickup Time:
+          <span aria-hidden="true">*</span> Pickup Time:
           <input
             type="datetime-local"
             id="pickup-time"
